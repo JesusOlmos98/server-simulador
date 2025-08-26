@@ -1,7 +1,5 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller } from '@nestjs/common';
 import { TcpServerService } from './tcp-server.service';
-import { CreateTcpServerDto } from './dto/create-tcp-server.dto';
-import { UpdateTcpServerDto } from './dto/update-tcp-server.dto';
 
 @Controller('tcp-server')
 export class TcpServerController {
