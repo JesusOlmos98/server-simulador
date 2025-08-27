@@ -8,11 +8,15 @@ import { EnTipoMensaje, EnTipoTrama } from 'src/utils/enums';
 @Injectable()
 export class TcpServerService implements OnModuleInit {
 
+  constructor() { }
+
   onModuleInit() {
     const server = createServer((socket: Socket) => {
+      let contadorTramas = 0;
+      let contadorPresencias = 0;
+
       josLogger.debug('------------------------------------------------- onModuleInit');
       josLogger.debug('📥 Cliente conectado');
-
       const remote = `${socket.remoteAddress}:${socket.remotePort}`;
       josLogger.debug(`📥 Cliente conectado desde ${remote}`);
 
@@ -49,11 +53,16 @@ export class TcpServerService implements OnModuleInit {
         josLogger.debug(`✅ FIN    = ${hexDump(END)}`);
         josLogger.debug(`✅ CRC    = ${crcValidation.ok} (expected=${crcValidation.expected}, received=${crcValidation.received})`);
 
-        josLogger.debug(`HEADER: \n Versión protocolo: ${parseHeader(data).versionProtocolo}\n Reserva: ${parseHeader(data).reserva}\n Nodo origen: ${parseHeader(data).nodoOrigen}\n Nodo destino: ${parseHeader(data).nodoDestino}\n Tipo trama: ${parseHeader(data).tipoTrama} (${EnTipoTrama[parseHeader(data).tipoTrama]})\n Tipo mensaje: ${parseHeader(data).tipoMensaje} (${EnTipoMensaje[parseHeader(data).tipoMensaje]})\n Longitud: ${parseHeader(data).longitud}\n`);
+        josLogger.debug(`HEADER: \n Versión protocolo: ${parseHeader(data).versionProtocolo}\n Reserva: ${parseHeader(data).reserva}\n Nodo origen: ${parseHeader(data).nodoOrigen}\n Nodo destino: ${parseHeader(data).nodoDestino}\n Tipo trama: ${parseHeader(data).tipoTrama} (${EnTipoTrama[parseHeader(data).tipoTrama]})\n Tipo mensaje: ${parseHeader(data).tipoMensaje} (${EnTipoMensaje[parseHeader(data).tipoMensaje]})\n Longitud: ${parseHeader(data).longitud}\n Data en Int: ${parseHeader(data).longitud != 0 ? payload.readUInt32LE(0) / 100 : "No hay bytes, probablemente haya llegado la PRESENCIA"}`);
 
         josLogger.warn(`📨📨📨 RX len= ${data.length}`);
         josLogger.warn('📨📨📨 RX HEX: \n' + hexDump(data));
         josLogger.warn('📨📨📨 RX b64: ' + data.toString('base64') + '\n');
+        josLogger.info('Tramas recibidas: ' + ++contadorTramas);
+
+        if (parseHeader(data).tipoMensaje === EnTipoMensaje.txPresencia) ++contadorPresencias;
+          
+        josLogger.info('Presencias recibidas: ' + contadorPresencias);
         josLogger.debug('-------------------------------------------------');
 
         // Responder al cliente
