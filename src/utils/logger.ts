@@ -13,7 +13,7 @@ export const josLogger = pino({
 
     }    
   },
-  level: 'debug',
+  level: 'info', //debug
 })
 
 // ** Niveles que soporta pino **

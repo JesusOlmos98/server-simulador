@@ -193,6 +193,8 @@ export enum EnTipoMensaje {
   rtProgresoActualizacion = 11,        // TM_SISTEMA_RT_PROGRESO_ACTUALIZACION
   txConfigFinal = 12,                  // TM_SISTEMA_TX_CONFIG_FINAL
   rtConfigFinal = 13,                  // TM_SISTEMA_RT_CONFIG_FINAL
+  txMetricas = 14,                     // jos TM_SISTEMA_TX_METRICAS
+  rtMetricas = 15,                     // jos TM_SISTEMA_RT_METRICAS
 }
 
 //jos Otros tipos de mensajes:
