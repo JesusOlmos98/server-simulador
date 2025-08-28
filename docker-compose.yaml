@@ -1,0 +1,21 @@
+version: "3.9"
+
+services:
+  cti-server:
+    build: .
+    container_name: cti-server
+    environment:
+      NODE_ENV: "production"
+      TCP_PORT: "8010"   # puerto TCP que escucha tu server
+      HTTP_PORT: "3000"  # puerto HTTP de tu API (si la tienes)
+      TZ: "Europe/Madrid"
+    ports:
+      - "8010:8010"      # expón sólo si quieres acceder desde el host
+      - "3000:3000"
+    restart: unless-stopped
+    # Opcional: healthcheck sencillo (requiere busybox-extras en Alpine si quieres nc)
+    # healthcheck:
+    #   test: ["CMD-SHELL", "nc -z localhost 8010 && nc -z localhost 3000"]
+    #   interval: 10s
+    #   timeout: 3s
+    #   retries: 5

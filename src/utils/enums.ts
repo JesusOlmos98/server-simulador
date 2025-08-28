@@ -145,7 +145,7 @@ export enum EnTipoDato {
   string4 = 30,
   string32 = 34,
 
-  // ! Este tipo de dato está en desuso: se utiliza TIPO_P_STRING_unicode16_simple que está más optimizado
+  // Este tipo de dato está en desuso: se utiliza TIPO_P_STRING_unicode16_simple que está más optimizado
   pString32 = 36,
 
   pStringUnicode16 = 44,

@@ -9,8 +9,10 @@ import {
 } from './getData';
 import { EnTipoMensaje, EnTipoTrama } from 'src/utils/enums';
 import { MetricsService } from 'src/metrics/metrics.service';
+import { EnvConfiguration } from 'config/app.config';
 
 const HEADER_LEN = 14; // versión(1)+reserva(1)+nodoO(2)+nodoD(2)+TT(1)+TM(1)+len(2)
+const env = EnvConfiguration();
 
 @Injectable()
 export class TcpServerService implements OnModuleInit {
@@ -135,8 +137,8 @@ export class TcpServerService implements OnModuleInit {
     });
 
     josLogger.debug('-------------------------------------------------');
-    server.listen(process.env.TCP_PORT || 8010, () => {
-      josLogger.debug('🚀 Servidor TCP escuchando en el puerto ' + (process.env.TCP_PORT || 8010) + ' \n\n\n');
+    server.listen(env.tcpPort || 8010, () => {
+      josLogger.debug('🚀 Servidor TCP escuchando en el puerto ' + (env.tcpPort || 8010) + ' \n\n\n');
     });
   }
 }
